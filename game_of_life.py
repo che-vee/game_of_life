@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 
 class Playground:
@@ -47,8 +49,16 @@ if __name__ == "__main__":
         )
     )
 
-    for step in range(10):
-        print(playground.grid, end="\n-------------\n")
-        playground.step()
+    fig = plt.figure()
+    plt.xticks([])
+    plt.yticks([])
+    image = []
 
-    print(playground.grid, end="\n-------------\n")
+    for step in range(10):
+        image.append((plt.imshow(playground.grid, cmap="BuPu"),))
+        playground.step()
+    image_animation = animation.ArtistAnimation(
+        fig, image, interval=800, repeat_delay=900, blit=True
+    )
+
+    image_animation.save("glider.gif", writer="imagemagick")
